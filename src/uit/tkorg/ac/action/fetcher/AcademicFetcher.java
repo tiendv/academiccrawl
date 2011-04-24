@@ -19,7 +19,11 @@ public class AcademicFetcher {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		
+		String keyworld = "tin huynh";
+		keyworld = keyworld.replaceAll(" ", "%20");
 		// TODO Auto-generated method stub
+		
 	}
 
 }
