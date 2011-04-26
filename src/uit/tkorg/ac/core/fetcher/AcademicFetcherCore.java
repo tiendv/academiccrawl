@@ -1,11 +1,19 @@
 package uit.tkorg.ac.core.fetcher;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import uit.tkorg.ac.action.fetcher.GetPageContent;
 import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
@@ -47,17 +55,12 @@ public class AcademicFetcherCore {
 	}
 	
 	public static ArrayList<String> getSuggestionAuthorLink(String _pageContent){
-		int index = -1; 	//vi tri cua chuoi "class=\"search-suggestion-author" trong page content
-				
-		index = _pageContent.indexOf(AcademicCrawlConst.CLASS_AUTHORS_SUGGESTION);
-		if(index == -1){
-			index = _pageContent.indexOf(AcademicCrawlConst.CLASS_AUTHOR_SUGGESTION);
-		}
 		
+		ArrayList<String> _lstLink = new ArrayList<String>();
+			
 		String _subString  = AcademicCrawlConst.CLASS_AUTHORS;			
 		ArrayList<Integer> _lstAuthorNameIndex = AcademicFetcherCore.getListIndexOfSubStringInString(_pageContent, _subString);
-		ArrayList<String> _lstLink = new ArrayList<String>();
-				
+		
 		String strTemp = "";
 		
 		for(int i= 0; i < _lstAuthorNameIndex.size() - 1; i++){
@@ -72,12 +75,12 @@ public class AcademicFetcherCore {
 		for(int i = 0; i < _lstLink.size(); i++){
 			System.out.println(_lstLink.get(i));
 		}
-		
+	
 		return _lstLink;
 	
 	}
 	
-	public static int CheckSearchStatus(String _pageContent){
+	public static int checkSearchStatus(String _pageContent){
 		int index = -1; 	//vi tri cua chuoi "class=\"search-suggestion-author" trong page content
 		
 		index = _pageContent.indexOf(AcademicCrawlConst.CLASS_AUTHORS_SUGGESTION);
@@ -91,5 +94,32 @@ public class AcademicFetcherCore {
 		}
 		
 		return 1;
+	}
+	
+	public static String getAuthorPageDetail(String link){
+		URL _url;
+		String _result = "";
+		try {
+			_url = new URL(link);
+			_result = GetPageContent.getResults(_url);
+		} catch (MalformedURLException e) {
+			System.out.println("Link khong hop le!");
+		} catch (IOException e) {
+			System.out.println("Link khong hop le!");
+		}
+					
+		return _result;
+	}
+	
+	public static void getPattern(String _patternStr){
+		
+		Pattern _pattern = Pattern.compile(_patternStr);
+		Matcher _matcher =  _pattern.matcher("");
+		
+		_matcher.find();
+		
+		String str = _matcher.group();
+		
+		System.out.println(str);
 	}
 }
