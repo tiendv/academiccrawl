@@ -13,7 +13,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 /**
- * @author tiendv
+ * @author tiendv, cuongnp
  *
  */
 public class AcademicFetcher {
