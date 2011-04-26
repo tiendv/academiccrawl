@@ -11,6 +11,10 @@ import javax.swing.JOptionPane;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.omg.CORBA.PUBLIC_MEMBER;
+
+import uit.tkorg.ac.core.fetcher.AcademicFetcherCore;
+import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
  * @author tiendv, cuongnp
@@ -56,64 +60,9 @@ public class AcademicFetcher {
 		}	
 		
 		if(_pageContent != ""){
-			int index = -1; 	//vi tri cua chuoi "class=\"search-suggestion-author" trong page content
-			
-			index = _pageContent.indexOf("class=\"search-suggestion-author");
-			System.out.println(" index = " + index);
-			
-			if(index == -1){
-				index = _pageContent.indexOf("class=\"search-suggestion");
-			}
-			
-			String _subString  = "<div class=\'author-compact-card\'>";
-			
-			ArrayList<Integer> _lstAuthorNameIndex = getListIndexOfSubStringInString(_pageContent, _subString);
-			ArrayList<String> _lstLink = new ArrayList<String>();
-			
-			String str = "";
-			
-			for(int i= 0; i < _lstAuthorNameIndex.size() - 1; i++){
-				str = GetAuthorLink(_pageContent.substring(_lstAuthorNameIndex.get(i), _lstAuthorNameIndex.get(i+1)));
-				_lstLink.add("http://academic.research.microsoft.com" + str);
-			}			
-			str = GetAuthorLink(_pageContent.substring(_lstAuthorNameIndex.get(_lstAuthorNameIndex.size() - 1)));
-			
-			_lstLink.add("http://academic.research.microsoft.com" + str);
-			
-			for(int i = 0; i < _lstLink.size(); i++){
-				System.out.println(_lstLink.get(i));
-			}
-			
-			
-		}
-	}
-	
-	//Ham lay ve mang cac vi tri cua chuoi con trong chuoi cha
-	public static ArrayList<Integer> getListIndexOfSubStringInString(String strContent, String subStr){
-		int lastIndex = 0;
-		ArrayList<Integer> authorNumber = new ArrayList<Integer>();
-		
-		while(lastIndex != -1){			
-			lastIndex = strContent.indexOf(subStr, lastIndex + 1);
-			
-			if( lastIndex != -1){
-				authorNumber.add(lastIndex);
-			}
+			AcademicFetcherCore.getSuggestionAuthorLink(_pageContent);
 		}
 		
-		return authorNumber;
 	}
-	
-	//Ham lay duong dan den mot tac gia 
-	public static String GetAuthorLink(String strContent){
-		String _authorLink = "";
-		
-		Document doc = Jsoup.parse(strContent);
-		Element link = doc.select("a").first();
-		
-		_authorLink = link.attr("href"); // "http://example.com/"
-		
-		return _authorLink;
-	}
-
+	//public static void Get
 }
