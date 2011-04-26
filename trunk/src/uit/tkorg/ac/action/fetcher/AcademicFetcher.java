@@ -2,7 +2,7 @@
 package uit.tkorg.ac.action.fetcher;
 
 /**
- * @author tiendv
+ * @author tiendv, cuongnp
  *
  */
 public class AcademicFetcher {
