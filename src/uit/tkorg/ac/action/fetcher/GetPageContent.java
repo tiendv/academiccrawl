@@ -10,7 +10,7 @@ import java.net.URL;
 import org.htmlparser.beans.StringBean;
 
 /**
- * @author tiendv
+ * @author tiendv, cuongnp
  *
  */
 public class GetPageContent {
