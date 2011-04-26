@@ -28,9 +28,6 @@ public class AcademicFetcher {
 	 */
 	private static String startGetUrlNOID = "http://academic.research.microsoft.com/Search?query=";
 	
-	
-	private static String _pageContent = "";
-	
 	//Keyword space = +
 	//Example http://academic.research.microsoft.com/Search?query=tin+huynh
 	/**
@@ -38,7 +35,33 @@ public class AcademicFetcher {
 	 */
 	public static void main(String[] args) {
 		
+		String _pageContent = fetch();
+		
+		if(_pageContent != ""){
+			if(AcademicFetcherCore.checkSearchStatus(_pageContent) == 3){		
+				ArrayList<String> _lstLink = new ArrayList<String>();
+				
+				 _lstLink = AcademicFetcherCore.getSuggestionAuthorLink(_pageContent);
+				
+				if(_lstLink.size() > 0){
+					for(int i = 0; i < 1; i++){
+						System.out.println(AcademicFetcherCore.getAuthorPageDetail(_lstLink.get(i)));
+					}
+				}
+				
+			}else if(AcademicFetcherCore.checkSearchStatus(_pageContent) == 2){
+				System.out.println("Tim dc 1 ket qua!");
+				System.out.println(_pageContent);
+			}else{
+				System.out.println("Khong tim thay ket qua");
+			}
+			
+		}
+		
+	}
+	public static String fetch(){
 		String _keyword = "";
+		String _pageContent = "";
 		_keyword = JOptionPane.showInputDialog("Tu khoa : ","Nhap tu khoa");
 		
 		_keyword = _keyword.replaceAll(" ", "+");
@@ -59,10 +82,7 @@ public class AcademicFetcher {
 			System.out.println("Cau truy van ko hop le");
 		}	
 		
-		if(_pageContent != ""){
-			AcademicFetcherCore.getSuggestionAuthorLink(_pageContent);
-		}
+		return _pageContent;
 		
 	}
-	//public static void Get
 }

@@ -11,4 +11,5 @@ public class AcademicCrawlConst {
 	public static String CLASS_AUTHOR_SUGGESTION = "class=\"search-suggestion";
 	public static String CLASS_AUTHORS = "<div class=\'author-compact-card\'>";
 	public static String ACCADEMIC_HOMEPAGE_URL = "http://academic.research.microsoft.com";
+	public static String FIND_AUTHOR_ID = "id=^\\d*$";
 }
