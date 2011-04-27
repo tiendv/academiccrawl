@@ -10,9 +10,10 @@ import javax.swing.JOptionPane;
 
 import uit.tkorg.ac.core.fetcher.AcademicFetcherCore;
 import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
+import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
- * @author tiendv, cuongnp
+ * @author tiendv, cuongnp, hoangnt
  *
  */
 public class AcademicFetcher {
@@ -21,7 +22,7 @@ public class AcademicFetcher {
 	/**
 	 * String to get ID from academic when get Author do't know ID 
 	 */
-	private static String startGetUrlNOID = "http://academic.research.microsoft.com/Search?query=";
+	private static String startGetUrlNOID = "";
 	
 	//Keyword space = +
 	//Example http://academic.research.microsoft.com/Search?query=tin+huynh
@@ -37,7 +38,6 @@ public class AcademicFetcher {
 		int numKeyword;
 		int numPublicaiton;
 		
-		String htmlContent;
 		String htmlContentWithOutTag;
 		String _pageContent = fetch();
 		
@@ -54,53 +54,68 @@ public class AcademicFetcher {
 				}
 				
 			}else if(AcademicFetcherCore.checkSearchStatus(_pageContent) == 2){
+				
 				ArrayList<String> nameCoAuthor;
 				ArrayList<String> nameJournal;
 				ArrayList<String> nameConference;
 				ArrayList<String> nameKeyword;
 				ArrayList<String> namePublication;
 				String interest;
+				
+				String urlWithAuthorID;
 				// Get ID
+				String coAuthorArea = GetContentDIVTag.getContentOfDivTag(_pageContent,AcademicCrawlConst.ID_CO_AUTHOR);
+				if(coAuthorArea != null){
+					authorId = AcademicFetcherCore.getAuthorID(coAuthorArea);
+					
+					// Get Interest
+					
+					urlWithAuthorID = AcademicCrawlConst.URL_WITH_AUTHOR_ID+ Integer.toString(authorId);
+					htmlContentWithOutTag = GetPageContent.getUrlContentsAsText(urlWithAuthorID);
+					interest = AcademicFetcherCore.getInterest(htmlContentWithOutTag);
+						
+					// Get CoAuthor Name
+					numCoAuthor = AcademicFetcherCore.getNumberCoAuthor(coAuthorArea);
+					if (numCoAuthor !=0)
+					nameCoAuthor = GetCoAuthor.getCoAuthorFromAuthorID(authorId, numCoAuthor);
+					
+					// Get Journal
+					//
+					String journalTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent,AcademicCrawlConst.ID_JOURNAL);
+					if(journalTextArea!= null) {
+						numJournal = AcademicFetcherCore.getNumberJournal(journalTextArea);
+						if(numJournal!=0)
+							nameJournal = GetJournal.getJournalFromAuthorID(authorId, numJournal);
+					}
+					
+					// Get Publication
+					String authorTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent,AcademicCrawlConst.ID_PUBLICAITON);
+					if (authorTextArea!=null){
+						numPublicaiton = AcademicFetcherCore.getNumberPublications(authorTextArea);
+						if(numPublicaiton!=0)
+							namePublication = GetPublications.getPublicationFromAuthorID(authorId, numPublicaiton);
+					}
+					
+					// Get Keyword
+					String keywordTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent,AcademicCrawlConst.ID_KEYWORD);
+					if (keywordTextArea!=null){
+						numKeyword = AcademicFetcherCore.getNumberKeyword(keywordTextArea);
+						if(numKeyword!=0)
+							nameKeyword = GetKeyWords.getKeyWordFromAuthorID(authorId, numKeyword);
+					}
+					// Get Conference
+					String conferemceTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent,AcademicCrawlConst.ID_CONFERENCE);
+					if(conferemceTextArea!=null) {
+						numConference = AcademicFetcherCore.getNumberConference(conferemceTextArea);
+						if(numConference!=0)
+							nameConference = GetConferences.getConferenceFromAuthorID(authorId, numConference);
+						
+					}
+					
+					// write to XML File
+					
+				}
 				
-				String coAuthorArea = GetContentDIVTag.getContentOfDivTag(_pageContent,"ctl00_LeftPanel_CoAuthors_PanelHeader");
-				authorId = AcademicFetcherCore.getAuthorID(coAuthorArea);
-				
-				// Get Interest
-				// Link ?
-				//htmlContentWithOutTag = GetPageContent.getUrlContentsAsText(url);
-			
-				// Get CoAuthor Name
-				numCoAuthor = AcademicFetcherCore.getNumberCoAuthor(coAuthorArea);
-				System.out.println(numCoAuthor);
-				System.out.println(authorId);
-				if (numCoAuthor !=0)
-				nameCoAuthor = GetCoAuthor.getCoAuthorFromAuthorID(authorId, numCoAuthor);
-				
-				// Get Journal
-				//
-				String journalTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent,"ctl00_LeftPanel_RelatedJournals_PanelHeader");
-				numJournal = AcademicFetcherCore.getNumberJournal(journalTextArea);
-				if(numJournal!=0)
-					nameJournal = GetJournal.getJournalFromAuthorID(authorId, numJournal);
-				
-				// Get Publication
-				String authorTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent, "ctl00_MainContent_AuthorItem_publication");
-				numPublicaiton = AcademicFetcherCore.getNumberPublications(authorTextArea);
-				if(numPublicaiton!=0)
-					namePublication = GetPublications.getPublicationFromAuthorID(authorId, numPublicaiton);
-				
-				// Get Keyword
-				String keywordTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent, "ctl00_LeftPanel_RelatedKeywords_PanelHeader");
-				numKeyword = AcademicFetcherCore.getNumberKeyword(keywordTextArea);
-				if(numKeyword!=0)
-					nameKeyword = GetKeyWords.getKeyWordFromAuthorID(authorId, numKeyword);
-				// Get Conference
-				String conferemceTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent, "ctl00_LeftPanel_RelatedConferences_PanelHeader");
-				numConference = AcademicFetcherCore.getNumberConference(conferemceTextArea);
-				if(numConference!=0)
-					nameConference = GetConferences.getConferenceFromAuthorID(authorId, numConference);
-				System.out.println("Tim dc 1 ket qua!");
-				//System.out.println(_pageContent);
 			}else{
 				System.out.println("Khong tim thay ket qua");
 			}
@@ -108,6 +123,7 @@ public class AcademicFetcher {
 		}
 		
 	}
+	
 	public static String fetch(){
 		String _keyword = "";
 		String _pageContent = "";
@@ -115,9 +131,7 @@ public class AcademicFetcher {
 		
 		_keyword = _keyword.replaceAll(" ", "+");
 		
-		System.out.println(_keyword);
-		String _urlString = startGetUrlNOID + _keyword; 
-		
+		String _urlString = AcademicCrawlConst.URL_START + _keyword + AcademicCrawlConst.DOMAIN_COMPUTER_SCIENCE; 
 		URL _url;
 		try {
 			_url = new URL(_urlString);

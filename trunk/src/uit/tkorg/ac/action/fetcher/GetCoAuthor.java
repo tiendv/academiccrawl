@@ -12,7 +12,7 @@ import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
 import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
- * @author tiendv
+ * @author tiendv,hoangnt
  * 
  */
 public class GetCoAuthor {
@@ -34,6 +34,12 @@ public class GetCoAuthor {
 	 * id=ID&start=1&end=A
 	 * 
 	 */
+	
+	
+	/**
+	 *  TO get CoAuthor from authorID and number of CoAuthor.
+	 */
+	
 	public static ArrayList<String> getCoAuthorFromAuthorID(int authorId,int numCo) {
 		ArrayList<String> lisCoAuthorName = new ArrayList<String>();
 		int start = 1;
@@ -76,16 +82,16 @@ public class GetCoAuthor {
 		return lisCoAuthorName;
 	}
 
-	public static void main(String arg[]) {
+/*	public static void main(String arg[]) {
 		ArrayList<String> lst = new ArrayList<String>();
 		lst = GetCoAuthor.getCoAuthorFromAuthorID(866448, 95);
-		/*lst = GetCoAuthor.getCoAuthorFromAuthorID(1844728, 112);
+		lst = GetCoAuthor.getCoAuthorFromAuthorID(1844728, 112);
 		lst = GetCoAuthor.getCoAuthorFromAuthorID(2442423, 151);
-		lst = GetCoAuthor.getCoAuthorFromAuthorID(409109, 108);*/
+		lst = GetCoAuthor.getCoAuthorFromAuthorID(409109, 108);
 		for (int i = 0; i < lst.size(); i++) {
 			System.out.println(lst.get(i));
 		}
 		System.out.println(lst.size());
-	}
+	}*/
 
 }

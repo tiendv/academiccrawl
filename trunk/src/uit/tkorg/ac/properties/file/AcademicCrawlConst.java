@@ -1,5 +1,9 @@
 package uit.tkorg.ac.properties.file;
-
+/**
+ * 
+ * @author tiendv,cuongnp,hoangnt
+ *
+ */
 public class AcademicCrawlConst {
 	public AcademicCrawlConst() {
 		// TODO Auto-generated constructor stub
@@ -26,4 +30,14 @@ public class AcademicCrawlConst {
 	public static String COAUTHOR_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_authorName";
 	public static String CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_name";
 	public static String PUBLICATION_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_Title";
+	
+	public static String URL_START = "http://academic.research.microsoft.com/Search?query=";
+	public static String URL_WITH_AUTHOR_ID = "http://academic.research.microsoft.com/Author/";
+	public static String DOMAIN_COMPUTER_SCIENCE = "&SearchDomain=2";
+	
+	public static String ID_CO_AUTHOR ="ctl00_LeftPanel_CoAuthors_PanelHeader";
+	public static String ID_JOURNAL="ctl00_LeftPanel_RelatedJournals_PanelHeader";
+	public static String ID_PUBLICAITON ="ctl00_MainContent_AuthorItem_publication";
+	public static String ID_KEYWORD = "ctl00_LeftPanel_RelatedKeywords_PanelHeader";
+	public static String ID_CONFERENCE="ctl00_LeftPanel_RelatedConferences_PanelHeader";
 }

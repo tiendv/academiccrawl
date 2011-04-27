@@ -12,11 +12,17 @@ import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
 import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
- * @author tiendv
+ * @author tiendv,hoangnt
  *
  */
 public class GetPublications {
 	
+	/**
+	 * TO get list of Title Publicaiton  
+	 * @param authorId : Author ID
+	 * @param numPub : Number of publication
+	 * @return : list of title publication
+	 */
 	public static ArrayList<String> getPublicationFromAuthorID(int authorId,int numPub) {
 		ArrayList<String> publications = new ArrayList<String>();
 		int start = 1;
