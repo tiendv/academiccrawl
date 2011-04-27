@@ -33,7 +33,7 @@ public class GetConferences {
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
 		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numCon + 9) /step;
+		int count = (numCon) /step;
 		while(count >= 0){
 			try {
 				String temp = null;
@@ -51,7 +51,7 @@ public class GetConferences {
 							conNum = "0" + conNum;
 						}
 						conference = GetContentDIVTag.getTextOfDivTag(temp,
-								AcademicCrawlConst.CONFERENCE_AND_JOURNAL_PATTERN_DIV.replaceAll(
+								AcademicCrawlConst.CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV.replaceAll(
 										"\\(NUM\\)", conNum));
 						conferences.add(conference);
 						} catch (Exception e) {

@@ -39,7 +39,8 @@ public class GetCoAuthor {
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
 		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numCo + 9) /step;
+		int count = (numCo) /step ;
+		
 		while(count >= 0){
 			try {
 				String temp = null;
@@ -75,16 +76,16 @@ public class GetCoAuthor {
 		return lisCoAuthorName;
 	}
 
-//	public static void main(String arg[]) {
-//		ArrayList<String> lst = new ArrayList<String>();
-//		lst = GetCoAuthor.getCoAuthorFromAuthorID(196415, 362);
-//		lst = GetCoAuthor.getCoAuthorFromAuthorID(1844728, 112);
-//		lst = GetCoAuthor.getCoAuthorFromAuthorID(2442423, 151);
-//		lst = GetCoAuthor.getCoAuthorFromAuthorID(409109, 108);
-//		for (int i = 0; i < lst.size(); i++) {
-//			System.out.println(lst.get(i));
-//		}
-//		System.out.println(lst.size());
-//	}
+	public static void main(String arg[]) {
+		ArrayList<String> lst = new ArrayList<String>();
+		lst = GetCoAuthor.getCoAuthorFromAuthorID(866448, 95);
+		/*lst = GetCoAuthor.getCoAuthorFromAuthorID(1844728, 112);
+		lst = GetCoAuthor.getCoAuthorFromAuthorID(2442423, 151);
+		lst = GetCoAuthor.getCoAuthorFromAuthorID(409109, 108);*/
+		for (int i = 0; i < lst.size(); i++) {
+			System.out.println(lst.get(i));
+		}
+		System.out.println(lst.size());
+	}
 
 }

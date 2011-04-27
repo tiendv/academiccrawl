@@ -22,7 +22,7 @@ public class GetPublications {
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
 		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numPub + 9) /step;
+		int count = (numPub) /step;
 		while(count >= 0){
 			try {
 				String temp = null;

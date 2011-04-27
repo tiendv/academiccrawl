@@ -20,9 +20,9 @@ public class GetJournal {
 	public static ArrayList<String> getJournalFromAuthorID(int authorId,int numJour) {
 		ArrayList<String> journals = new ArrayList<String>();
 		int start = 1;
-		int end = numJour;
+		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
 		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numJour + 9) /step;
+		int count = (numJour) /step;
 		while(count >= 0){
 			try {
 				String temp = null;
@@ -40,7 +40,7 @@ public class GetJournal {
 						conNum = "0" + conNum;
 					}
 					journal = GetContentDIVTag.getTextOfDivTag(temp,
-							AcademicCrawlConst.CONFERENCE_AND_JOURNAL_PATTERN_DIV.replaceAll(
+							AcademicCrawlConst.CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV.replaceAll(
 									"\\(NUM\\)", conNum));
 					journals.add(journal);
 					} catch (Exception e) {

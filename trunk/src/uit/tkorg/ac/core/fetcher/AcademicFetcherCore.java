@@ -223,6 +223,20 @@ public class AcademicFetcherCore {
 	}
 	/**
 	 * 
+	 * @param journalTextArea
+	 * @return
+	 * ID : ctl00_LeftPanel_RelatedConferences_PanelHeader
+	 */
+	public static int getNumberConference(String conferemceTextArea) {
+		int numberConference = 0;
+		conferemceTextArea = conferemceTextArea.toString().replaceAll("\\<.*?>","");
+		conferemceTextArea =getPattern(conferemceTextArea,"\\d+",0);
+		numberConference=Integer.parseInt(conferemceTextArea);
+		return numberConference;
+	}
+	
+	/**
+	 * 
 	 * @param keywordTextArea
 	 * @return
 	 * ID : ctl00_LeftPanel_RelatedKeywords_PanelHeade
