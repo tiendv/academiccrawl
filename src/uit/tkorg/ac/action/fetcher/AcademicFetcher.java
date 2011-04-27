@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import org.dom4j.Document;
+
 import uit.tkorg.ac.core.fetcher.AcademicFetcherCore;
 import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
 import uit.tkorg.ac.properties.file.AcademicCrawlConst;
@@ -18,14 +20,7 @@ import uit.tkorg.ac.properties.file.AcademicCrawlConst;
  */
 public class AcademicFetcher {
 	
-	
-	/**
-	 * String to get ID from academic when get Author do't know ID 
-	 */
-	private static String startGetUrlNOID = "";
-	
-	//Keyword space = +
-	//Example http://academic.research.microsoft.com/Search?query=tin+huynh
+
 	/**
 	 * @param args
 	 */
@@ -55,12 +50,19 @@ public class AcademicFetcher {
 				
 			}else if(AcademicFetcherCore.checkSearchStatus(_pageContent) == 2){
 				
-				ArrayList<String> nameCoAuthor;
-				ArrayList<String> nameJournal;
-				ArrayList<String> nameConference;
-				ArrayList<String> nameKeyword;
-				ArrayList<String> namePublication;
+				ArrayList<String> nameCoAuthor = null;
+				ArrayList<String> nameJournal= null;
+				ArrayList<String> nameConference = null;
+				ArrayList<String> nameKeyword = null;
+				ArrayList<String> namePublication = null;
 				String interest;
+				
+				String authorName = null;
+				
+				// Get Author Name
+				
+				String authorNameTextArea = GetContentDIVTag.getContentOfDivTag(_pageContent, AcademicCrawlConst.ID_AUTHOR_NAME);
+				authorName = AcademicFetcherCore.getAuthorName(authorNameTextArea);
 				
 				String urlWithAuthorID;
 				// Get ID
@@ -113,6 +115,21 @@ public class AcademicFetcher {
 					}
 					
 					// write to XML File
+					
+					Document xmlFile = WriteXML.buildDocument(authorName, interest, nameCoAuthor, nameConference, nameJournal, nameKeyword, namePublication);
+					String nameFIle;
+					nameFIle = JOptionPane.showInputDialog(" Tem file: ","Nhap vao ten File");
+					String path = "C:\\"+ nameFIle+".xml";
+					
+					try {
+						WriteXML.write(xmlFile, path);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					
+					
 					
 				}
 				
