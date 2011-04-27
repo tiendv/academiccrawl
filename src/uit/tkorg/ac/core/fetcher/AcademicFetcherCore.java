@@ -79,11 +79,6 @@ public class AcademicFetcherCore {
 			strTemp = AcademicFetcherCore.GetAuthorLink(_pageContent.substring(_lstAuthorNameIndex.get(_lstAuthorNameIndex.size() - 1)));
 		
 		_lstLink.add(AcademicCrawlConst.ACCADEMIC_HOMEPAGE_URL + strTemp);
-		
-		for(int i = 0; i < _lstLink.size(); i++){
-			System.out.println(_lstLink.get(i));
-		}
-	
 		return _lstLink;
 	
 	}

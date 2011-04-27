@@ -65,12 +65,12 @@ public class GetKeyWords {
 		return keywords;
 	}
 	
-	public static void main(String arg[]) {
+/*	public static void main(String arg[]) {
 	ArrayList<String> lst = new ArrayList<String>();
 	lst = GetKeyWords.getKeyWordFromAuthorID(70591, 163);
 	for (int i = 0; i < lst.size(); i++) {
 		System.out.println(lst.get(i));
 	}
 	System.out.println(lst.size());
-}
+}*/
 }

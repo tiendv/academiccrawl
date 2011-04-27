@@ -26,7 +26,7 @@ public class WriteXML {
 	      // root
 	      Element root = document.addElement( "Author" );
 	      root.addAttribute("name",authorName);
-	      root.addAttribute("intereste", interest);
+	      root.addAttribute("interest", interest);
 	     
 	      // CoAuthor
 	      Element listCoAuthor = root.addElement( "COAUTHOR");
@@ -85,11 +85,14 @@ public class WriteXML {
 
 	      // Pretty print the document to System.out
 	      OutputFormat format = OutputFormat.createPrettyPrint();
+	      writer = new XMLWriter( System.out, format );
 	      writer.write( document );
 
 	      // Compact format to System.out
 	      format = OutputFormat.createCompactFormat();
+	      writer = new XMLWriter( System.out, format );
 	      writer.write( document );
+	      
 	   }
 
 }
