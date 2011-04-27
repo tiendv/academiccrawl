@@ -20,9 +20,16 @@ public class GetContentDIVTag {
 	public static String getContentOfDivTag(String htmlContent, String divID) {
 		Document doc = Jsoup.parse(htmlContent);
 		String id = "#"+divID;
-		Element getdata = doc.select(id).first();
+		Element getdata = doc.select(id).first();	
+		
 		return getdata.toString();
 	}
 
+	public static String getTextOfDivTag(String htmlContent, String divID) {
+		Document doc = Jsoup.parse(htmlContent);
+		String id = "#"+divID;
+		Element getdata = doc.select(id).first();			
+		return getdata.ownText();
+	}
 }
 
