@@ -20,9 +20,10 @@ public class AcademicCrawlConst {
 	public static String ACCADEMIC_CONFERENCE_QUERY = "http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=3&id=";
 	public static String ACCADEMIC_JOURNAL_QUERY = "http://academic.research.microsoft.com/Detail?searchtype=4&entitytype=2&id=";
 	public static String ACCADEMIC_PUBLICATION_QUERY="http://academic.research.microsoft.com/Detail?searchtype=2&entitytype=2&id=";
+	public static String ACCADEMIC_KEYWORD_QUERY= "http://academic.research.microsoft.com/Detail?searchtype=9&entitytype=2&id=";
 	public static String FIND_AUTHOR_ID = "id=^\\d*$";
 		
 	public static String COAUTHOR_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_authorName";
-	public static String CONFERENCE_AND_JOURNAL_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_name";
+	public static String CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_name";
 	public static String PUBLICATION_PATTERN_DIV = "ctl00_MainContent_ObjectList_ctl(NUM)_Title";
 }
