@@ -2,21 +2,14 @@
 package uit.tkorg.ac.action.fetcher;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.omg.CORBA.PUBLIC_MEMBER;
-
 import uit.tkorg.ac.core.fetcher.AcademicFetcherCore;
 import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
-import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
  * @author tiendv, cuongnp
