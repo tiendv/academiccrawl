@@ -174,6 +174,8 @@ public class AcademicFetcherCore {
 	 * 
 	 * @param authorTextArea
 	 * @return
+	 * 
+	 * ID : ctl00_MainContent_AuthorItem_authorName
 	 */
 	public static String getAuthorName(String authorTextArea) {
 		String authorName;
