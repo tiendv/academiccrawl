@@ -23,15 +23,15 @@ public class GetCoAuthor {
 	 * 
 	 * B1: Use Partten :
 	 * http://academic.research.microsoft.com/Detail?entitytype
-	 * =2&searchtype=1&id= B2: Get Number of CoAuthor: A B3: Get author name
+	 * =2&searchtype=1&id= 
+	 * B2: Get Number of CoAuthor: A 
+	 * B3: Get author name
 	 * 
 	 * if numberofAuthor >10 Get htmlcontent to get list name. else : one time
 	 * get 10 name to end use this parten:
 	 * 
 	 * http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=1&
-	 * id=ID&start=X&end=Y
-	 * 
-	 * X to Y with Y<a
+	 * id=ID&start=1&end=A
 	 * 
 	 */
 	public static ArrayList<String> getCoAuthorFromAuthorID(int authorId,int numCo) {
