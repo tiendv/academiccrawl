@@ -17,7 +17,7 @@ public class GetContentDIVTag {
 	// ID to get number of publi: ctl00_MainContent_AuthorItem_publication
 	// ID to get co - author : ctl00_LeftPanel_CoAuthors_PanelHeader
 	// ID to get left panel (co - author, Conference,joural, keyword ): ctl00_divLeftWrapper
-	String getContentOfDivTag(String htmlContent, String divID) {
+	public static String getContentOfDivTag(String htmlContent, String divID) {
 		Document doc = Jsoup.parse(htmlContent);
 		String id = "#"+divID;
 		Element getdata = doc.select(id).first();
