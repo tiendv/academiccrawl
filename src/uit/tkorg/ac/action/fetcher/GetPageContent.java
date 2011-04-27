@@ -15,6 +15,12 @@ import org.htmlparser.beans.StringBean;
  */
 public class GetPageContent {
 	
+	/**
+	 * 
+	 * @param source : URL to get HTML content
+	 * @return : String with HTML Tag
+	 * @throws IOException
+	 */
 	  public static String getResults(URL source) throws IOException {
 	        
 	        InputStream in = source.openStream();
@@ -28,6 +34,11 @@ public class GetPageContent {
 	        }
 	        return sb.toString();
 	    }
+	  /**
+	   * 
+	   * @param url : String URL 
+	   * @return : String HTML content with out HTML Tag
+	   */
 	  
 	    public static  String getUrlContentsAsText(String url) { 
 	        String content = ""; 

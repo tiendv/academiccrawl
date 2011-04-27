@@ -16,6 +16,12 @@ import uit.tkorg.ac.properties.file.AcademicCrawlConst;
  *
  */
 public class GetKeyWords {
+	/**
+	 * 
+	 * @param authorId : Author ID
+	 * @param numKey : number of Keywords
+	 * @return list of Keyword
+	 */
 	
 	public static ArrayList<String> getKeyWordFromAuthorID(int authorId,int numKey) {
 		ArrayList<String> keywords = new ArrayList<String>();
