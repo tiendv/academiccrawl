@@ -37,41 +37,54 @@ public class GetCoAuthor {
 	public static ArrayList<String> getCoAuthorFromAuthorID(int authorId,int numCo) {
 		ArrayList<String> lisCoAuthorName = new ArrayList<String>();
 		int start = 1;
-		int end = numCo;
-		
-		try {
-			String temp = null;
-			String author = null;
-			temp = GetPageContent.getResults(new URL(
-					AcademicCrawlConst.ACCADEMIC_COAUTHOR_URL + authorId +
-					AcademicCrawlConst.AND+
-					AcademicCrawlConst.START + "=" +start +
-					AcademicCrawlConst.AND+
-					AcademicCrawlConst.END + "=" + end));
-			for (int i = 0; i < numCo; i++) {
-				// get co-author name from pattern tag id
-				String auNum = 	String.valueOf(i);				
-				if(i<10){
-					auNum = "0"+auNum;
-				}				
-				author = GetContentDIVTag.getTextOfDivTag(temp,
-						AcademicCrawlConst.COAUTHOR_PATTERN.replaceAll("\\(NUM\\)",auNum));
-				lisCoAuthorName.add(author);				
+		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int count = (numCo + 9) /step;
+		while(count >= 0){
+			try {
+				String temp = null;
+				String author = null;
+				temp = GetPageContent.getResults(new URL(
+						AcademicCrawlConst.ACCADEMIC_COAUTHOR_QUERY + authorId +
+						AcademicCrawlConst.AND+
+						AcademicCrawlConst.START + "=" +start +
+						AcademicCrawlConst.AND+
+						AcademicCrawlConst.END + "=" + end));
+				for (int i = 0; i < step; i++) {					
+					try{// try getting co-author name from pattern tag id
+					String auNum = 	String.valueOf(i);				
+					if(i<10){
+						auNum = "0"+auNum;
+					}				
+					author = GetContentDIVTag.getTextOfDivTag(temp,
+							AcademicCrawlConst.COAUTHOR_PATTERN_DIV.replaceAll("\\(NUM\\)",auNum));
+					lisCoAuthorName.add(author);		
+					} catch (Exception e) {
+						// do nothing
+					}
+				}
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			count--;
+			start = start + step;
+			end = end + step;
+		};
 		return lisCoAuthorName;
 	}
 
 //	public static void main(String arg[]) {
 //		ArrayList<String> lst = new ArrayList<String>();
-//		lst = GetCoAuthor.getCoAuthorFromAuthorID(866448, 95);
+//		lst = GetCoAuthor.getCoAuthorFromAuthorID(196415, 362);
+//		lst = GetCoAuthor.getCoAuthorFromAuthorID(1844728, 112);
+//		lst = GetCoAuthor.getCoAuthorFromAuthorID(2442423, 151);
+//		lst = GetCoAuthor.getCoAuthorFromAuthorID(409109, 108);
 //		for (int i = 0; i < lst.size(); i++) {
 //			System.out.println(lst.get(i));
 //		}
+//		System.out.println(lst.size());
 //	}
 
 }
