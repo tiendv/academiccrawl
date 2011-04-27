@@ -31,34 +31,51 @@ public class GetConferences {
 	public static ArrayList<String> getConferenceFromAuthorID(int authorId,int numCon) {
 		ArrayList<String> conferences = new ArrayList<String>();
 		int start = 1;
-		int end = numCon;
-
-		try {
-			String temp = null;
-			String conference = null;
-			temp = GetPageContent.getResults(new URL(
-					AcademicCrawlConst.ACCADEMIC_CONFERENCE_URL + authorId + 
-					AcademicCrawlConst.AND + 
-					AcademicCrawlConst.START + "=" + start + 
-					AcademicCrawlConst.AND + 
-					AcademicCrawlConst.END + "=" + end));
-			for (int i = 0; i < numCon; i++) {
-				// get conferences name from pattern tag id
-				String conNum = String.valueOf(i);
-				if (i < 10) {
-					conNum = "0" + conNum;
+		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int count = (numCon + 9) /step;
+		while(count >= 0){
+			try {
+				String temp = null;
+				String conference = null;
+				temp = GetPageContent.getResults(new URL(
+						AcademicCrawlConst.ACCADEMIC_CONFERENCE_QUERY + authorId + 
+						AcademicCrawlConst.AND + 
+						AcademicCrawlConst.START + "=" + start + 
+						AcademicCrawlConst.AND + 
+						AcademicCrawlConst.END + "=" + end));
+				for (int i = 0; i < numCon; i++) {
+					try{// try getting conference name from pattern tag id
+						String conNum = String.valueOf(i);
+						if (i < 10) {
+							conNum = "0" + conNum;
+						}
+						conference = GetContentDIVTag.getTextOfDivTag(temp,
+								AcademicCrawlConst.CONFERENCE_AND_JOURNAL_PATTERN_DIV.replaceAll(
+										"\\(NUM\\)", conNum));
+						conferences.add(conference);
+						} catch (Exception e) {
+							// do nothing
+						}
 				}
-				conference = GetContentDIVTag.getTextOfDivTag(temp,
-						AcademicCrawlConst.CONFERENCE_PATTERN.replaceAll(
-								"\\(NUM\\)", conNum));
-				conferences.add(conference);
+			} catch (MalformedURLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+			count--;
+			start = start + step;
+			end = end + step;
+		};
 		return conferences;
 	}
-
+	
+//	public static void main(String arg[]) {
+//		ArrayList<String> lst = new ArrayList<String>();
+//		lst = GetConferences.getConferenceFromAuthorID(196415, 45);
+//		for (int i = 0; i < lst.size(); i++) {
+//			System.out.println(lst.get(i));
+//		}
+//		System.out.println(lst.size());
+//	}
 }
