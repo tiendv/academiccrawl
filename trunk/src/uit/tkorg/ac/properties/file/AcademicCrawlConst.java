@@ -40,4 +40,5 @@ public class AcademicCrawlConst {
 	public static String ID_PUBLICAITON ="ctl00_MainContent_AuthorItem_publication";
 	public static String ID_KEYWORD = "ctl00_LeftPanel_RelatedKeywords_PanelHeader";
 	public static String ID_CONFERENCE="ctl00_LeftPanel_RelatedConferences_PanelHeader";
+	public static String ID_AUTHOR_NAME = "ctl00_MainContent_AuthorItem_authorName";
 }
