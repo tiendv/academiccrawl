@@ -52,16 +52,14 @@ public class AcademicFetcher {
 			authorId = AcademicFetcherCore.getAuthorID(coAuthorArea);
 			
 			// Get Interest
-			
-			urlWithAuthorID = AcademicCrawlConst.URL_WITH_AUTHOR_ID+ Integer.toString(authorId);
-			htmlContentWithOutTag = GetPageContent.getUrlContentsAsText(urlWithAuthorID);
-			interest = AcademicFetcherCore.getInterest(htmlContentWithOutTag);
-				
+			interest = AcademicFetcherCore.getInterest(htmlContent.replaceAll("\\<.*?>","").replaceAll("&nbsp;", ""));
+
 			// Get CoAuthor Name
 			numCoAuthor = AcademicFetcherCore.getNumberCoAuthor(coAuthorArea);
-			if (numCoAuthor !=0)
-			nameCoAuthor = GetCoAuthor.getCoAuthorFromAuthorID(authorId, numCoAuthor);
-			
+			if (numCoAuthor != 0)
+				nameCoAuthor = GetCoAuthor.getCoAuthorFromAuthorID(authorId,
+						numCoAuthor);
+
 			// Get Journal
 			//
 			String journalTextArea = GetContentDIVTag.getContentOfDivTag(htmlContent,AcademicCrawlConst.ID_JOURNAL);

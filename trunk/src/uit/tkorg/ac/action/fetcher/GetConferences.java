@@ -28,54 +28,58 @@ public class GetConferences {
 	 * name
 	 * 
 	 */
-	public static ArrayList<String> getConferenceFromAuthorID(int authorId,int numCon) {
+	public static ArrayList<String> getConferenceFromAuthorID(int authorId,
+			int numCon) {
 		ArrayList<String> conferences = new ArrayList<String>();
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numCon) /step;
-		while(count >= 0){
+		int numConPerPage = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int numPage = (numCon) / numConPerPage;
+
+		for (int i = 0; i <= numPage; i++) {
+			int MaxRunPerPage = numConPerPage;
+			if (i == numPage) {
+				MaxRunPerPage = numCon - numConPerPage * numPage;
+			}
 			try {
 				String temp = null;
 				String conference = null;
 				temp = GetPageContent.getResults(new URL(
-						AcademicCrawlConst.ACCADEMIC_CONFERENCE_QUERY + authorId + 
-						AcademicCrawlConst.AND + 
-						AcademicCrawlConst.START + "=" + start + 
-						AcademicCrawlConst.AND + 
-						AcademicCrawlConst.END + "=" + end));
-				for (int i = 0; i < numCon; i++) {
-					try{// try getting conference name from pattern tag id
-						String conNum = String.valueOf(i);
-						if (i < 10) {
-							conNum = "0" + conNum;
-						}
-						conference = GetContentDIVTag.getTextOfDivTag(temp,
-								AcademicCrawlConst.CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV.replaceAll(
-										"\\(NUM\\)", conNum));
-						conferences.add(conference);
-						} catch (Exception e) {
-							// do nothing
-						}
+						AcademicCrawlConst.ACCADEMIC_CONFERENCE_QUERY
+								+ authorId + AcademicCrawlConst.AND
+								+ AcademicCrawlConst.START + "=" + start
+								+ AcademicCrawlConst.AND
+								+ AcademicCrawlConst.END + "=" + end));
+				for (int j = 0; j < MaxRunPerPage; j++) {
+					// try getting conference name from pattern tag id
+					String conNum = String.valueOf(j);
+					if (j < 10) {
+						conNum = "0" + conNum;
+					}
+					conference = GetContentDIVTag
+							.getTextOfDivTag(
+									temp,
+									AcademicCrawlConst.CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV
+											.replaceAll("\\(NUM\\)", conNum));
+					conferences.add(conference);
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			count--;
-			start = start + step;
-			end = end + step;
-		};
+			start = start + numConPerPage;
+			end = end + numConPerPage;
+		}
 		return conferences;
 	}
-	
-//	public static void main(String arg[]) {
-//		ArrayList<String> lst = new ArrayList<String>();
-//		lst = GetConferences.getConferenceFromAuthorID(196415, 45);
-//		for (int i = 0; i < lst.size(); i++) {
-//			System.out.println(lst.get(i));
-//		}
-//		System.out.println(lst.size());
-//	}
+
+/*	public static void main(String arg[]) {
+		ArrayList<String> lst = new ArrayList<String>();
+		lst = GetConferences.getConferenceFromAuthorID(196415, 45);
+		for (int i = 0; i < lst.size(); i++) {
+			System.out.println(lst.get(i));
+		}
+		System.out.println(lst.size());
+	}*/
 }

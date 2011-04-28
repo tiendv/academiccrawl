@@ -21,6 +21,8 @@ public class GetContentDIVTag {
 		Document doc = Jsoup.parse(htmlContent);
 		String id = "#"+divID;
 		Element getdata = doc.select(id).first();	
+		if(getdata == null)
+			return null;
 		
 		return getdata.toString();
 	}
