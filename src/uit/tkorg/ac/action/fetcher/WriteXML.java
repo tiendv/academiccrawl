@@ -29,25 +29,25 @@ public class WriteXML {
 	      root.addAttribute("interest", interest);
 	     
 	      // CoAuthor
-	      Element listCoAuthor = root.addElement( "COAUTHOR");
+	      Element listCoAuthor = root.addElement( "COAUTHOR").addAttribute("count", String.valueOf(coAuthor.size()));
 	      if (coAuthor.isEmpty() == false)
 	      for(int i =0; i<coAuthor.size();i++ ) {
 	    	  Element nameCorAuthor = listCoAuthor.addElement ("AUTHOR").addText(coAuthor.get(i));
 	      }
 	      // Conference
-	     Element listConference =root.addElement( "CONFERENCES");
+	     Element listConference =root.addElement( "CONFERENCES").addAttribute("count",  String.valueOf(conference.size()));
 	     if (conference.isEmpty() == false)
 	    	 for(int i =0; i< conference.size();i++) {
 	    		 Element nameConference = listConference.addElement ("CONFERENCE").addText(conference.get(i));  
 	    	 }
 	     // Journal
-	     Element listJournal = root.addElement( "JOURNALS");
+	     Element listJournal = root.addElement( "JOURNALS").addAttribute("count",  String.valueOf(journal.size()));
 	     if (journal.isEmpty() == false)
 	    	 for(int i =0; i< journal.size();i++) {
 	    		 Element nameJournal = listJournal.addElement ("JOURNAL").addText(journal.get(i));  
 	    	 }
 	     //Keyword
-	     Element listKeyword = root.addElement( "KEYWORDS");
+	     Element listKeyword = root.addElement( "KEYWORDS").addAttribute("count",  String.valueOf(keyword.size()));
 	     if (keyword.isEmpty() == false)
 	    	 for(int i =0; i< keyword.size();i++) {
 	    		 Element nameKeyword = listKeyword.addElement ("KEYWORD").addText(keyword.get(i));  
@@ -55,17 +55,16 @@ public class WriteXML {
 	 
 	     // Publicaiton
 	     
-	     Element listPublication = root.addElement( "PUBLICAITONS");
+	   Element listPublication = root.addElement( "PUBLICAITONS").addAttribute("count",  String.valueOf(publication.size()));
 	     if (publication.isEmpty() == false)
-	    	 for(int i =0; i< publication.size();i++) {
-	    		 Element title = listPublication.addElement ("PUBLICAITON").addText(publication.get(i));  
+	    	 for(int i = 0; i< publication.size();i++) {
+	    		 Element title = listPublication.addElement ("PUBLICAITON").addText(publication.get(i));
 	    	 }
-	   
-
-	/*      Element author2 = root.addElement( "AUTHOR" ).addAttribute( "name",
+	  /* 
+	  Element author2 = root.addElement( "AUTHOR" ).addAttribute( "name",
 	            "Krish" ).addAttribute( "location", "India" ).addText(
 	            "Javabeat.net" );*/
-
+	            
 	      return document;
 	   }
 	
@@ -89,9 +88,10 @@ public class WriteXML {
 	      writer.write( document );
 
 	      // Compact format to System.out
-	      format = OutputFormat.createCompactFormat();
-	      writer = new XMLWriter( System.out, format );
-	      writer.write( document );
+//	      format = OutputFormat.createCompactFormat();
+//	      writer = new XMLWriter( System.out, format );
+//	      writer.write( document );
+	      
 	      
 	   }
 

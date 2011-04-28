@@ -33,7 +33,7 @@ public class GetPublications {
 			try {
 				String temp = null;
 				String publication = null;
-				temp = GetPageContent.getResults(new URL(
+				temp = GetPageContent.getWithUTF8( new URL(
 						AcademicCrawlConst.ACCADEMIC_PUBLICATION_QUERY + authorId + 
 						AcademicCrawlConst.AND + 
 						AcademicCrawlConst.START + "=" + start + 
@@ -66,12 +66,13 @@ public class GetPublications {
 		return publications;
 	}
 	
-//	public static void main(String arg[]) {
-//		ArrayList<String> lst = new ArrayList<String>();
-//		lst = GetPublications.getPublicationFromAuthorID(196415, 441);
-//		for (int i = 0; i < lst.size(); i++) {
-//			System.out.println(lst.get(i));
-//		}
-//		System.out.println(lst.size());
-//	}
+/*	public static void main(String arg[]) {
+		ArrayList<String> lst = new ArrayList<String>();
+		lst = GetPublications.getPublicationFromAuthorID(866448, 81);
+		for (int i = 0; i < lst.size(); i++) {
+			System.out.println(lst.get(i));
+		}
+		
+		System.out.println(lst.size());
+	}*/
 }
