@@ -206,6 +206,7 @@ public class AcademicFetcherCore {
 	public static int getNumberCoAuthor(String coAuthorTextArea) {
 		int numberPublication = 0;
 		coAuthorTextArea = coAuthorTextArea.toString().replaceAll("\\<.*?>","");
+		
 		coAuthorTextArea =getPattern(coAuthorTextArea,"\\d+",0);
 		numberPublication=Integer.parseInt(coAuthorTextArea);
 		return numberPublication;

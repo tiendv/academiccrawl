@@ -27,9 +27,13 @@ public class GetPublications {
 		ArrayList<String> publications = new ArrayList<String>();
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numPub) /step;
-		while(count >= 0){
+		int numPubPerPage = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int numPage = (numPub) /numPubPerPage;
+		for (int i = 0; i <= numPage; i++) {
+			int MaxRunPerPage = numPubPerPage;
+			if (i == numPage) {
+				MaxRunPerPage = numPub - numPubPerPage * numPage;
+			}
 			try {
 				String temp = null;
 				String publication = null;
@@ -40,29 +44,25 @@ public class GetPublications {
 						AcademicCrawlConst.AND + 
 						AcademicCrawlConst.END + "=" + end));
 				
-				for (int i = 0; i < numPub; i++) {
-					try{// try getting co-author name from pattern tag id
-					String conNum = String.valueOf(i);
-					if (i < 10) {
+				for (int j = 0; j < MaxRunPerPage; j++) {
+					// try getting co-author name from pattern tag id
+					String conNum = String.valueOf(j);
+					if (j < 10) {
 						conNum = "0" + conNum;
 					}
 					publication = GetContentDIVTag.getTextOfDivTag(temp,
 							AcademicCrawlConst.PUBLICATION_PATTERN_DIV.replaceAll(
 									"\\(NUM\\)", conNum));
 					publications.add(publication);
-					} catch (Exception e) {
-						// do nothing
-					}
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			count--;
-			start = start + step;
-			end = end + step;
-		};
+			start = start + numPubPerPage;
+			end = end + numPubPerPage;
+		}
 		return publications;
 	}
 	

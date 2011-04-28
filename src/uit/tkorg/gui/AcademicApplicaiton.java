@@ -49,6 +49,7 @@ public class AcademicApplicaiton {
 						ArrayList<String> _lstLink = new ArrayList<String>();
 						_lstLink = AcademicFetcherCore.getSuggestionAuthorLink(_pageContent);
 						for (int i = 0;i <_lstLink.size();i++) {
+							System.out.printf(_lstLink.get(i));
 							String nameAuthor = AcademicFetcher.getAuthorNameFromURL(_lstLink.get(i));
 							int chose =JOptionPane.showConfirmDialog(null,"Co phai : "+nameAuthor +"?","Thong bao", JOptionPane.YES_NO_OPTION, JOptionPane.YES_NO_OPTION);
 								if (chose ==0) {

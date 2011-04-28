@@ -27,9 +27,13 @@ public class GetKeyWords {
 		ArrayList<String> keywords = new ArrayList<String>();
 		int start = 1;
 		int end = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int step = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
-		int count = (numKey) /step;
-		while(count >= 0){
+		int numKeyPerPage = AcademicCrawlConst.MAX_NUMBER_SHOW_IN_PAGE;
+		int numPage = (numKey) /numKeyPerPage;
+		for (int i = 0; i <= numPage; i++) {
+			int MaxRunPerPage = numKeyPerPage;
+			if (i == numPage) {
+				MaxRunPerPage = numKey - numKeyPerPage * numPage;
+			}
 			try {
 				String temp = null;
 				String keyword = null;
@@ -39,29 +43,25 @@ public class GetKeyWords {
 						AcademicCrawlConst.START + "=" + start + 
 						AcademicCrawlConst.AND + 
 						AcademicCrawlConst.END + "=" + end));
-				for (int i = 0; i < numKey; i++) {
-					try{// try getting journal name from pattern tag id
-					String conNum = String.valueOf(i);
-					if (i < 10) {
+				for (int j = 0; j < MaxRunPerPage; j++) {
+					// try getting journal name from pattern tag id
+					String conNum = String.valueOf(j);
+					if (j < 10) {
 						conNum = "0" + conNum;
 					}
 					keyword = GetContentDIVTag.getTextOfDivTag(temp,
 							AcademicCrawlConst.CONFERENCE_AND_JOURNAL_AND_KEYWORD_PATTERN_DIV.replaceAll(
 									"\\(NUM\\)", conNum));
 					keywords.add(keyword);
-					} catch (Exception e) {
-						// do nothing
-					}
 				}
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			count--;
-			start = start + step;
-			end = end + step;
-		};
+			start = start + numKeyPerPage;
+			end = end + numKeyPerPage;
+		}
 		return keywords;
 	}
 	
