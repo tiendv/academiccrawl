@@ -3,9 +3,13 @@
  */
 package uit.tkorg.ac.action.fetcher;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import org.htmlparser.beans.StringBean;
 
@@ -34,6 +38,23 @@ public class GetPageContent {
 	        }
 	        return sb.toString();
 	    }
+	  public static String getWithUTF8(URL url) throws UnsupportedEncodingException, IOException {
+		  	URLConnection urlc = url.openConnection();
+
+	        //BufferedInputStream buffer = new BufferedInputStream(urlc.getInputStream());
+	        BufferedReader buffer = new BufferedReader(new InputStreamReader(urlc.getInputStream(), "UTF8"));
+
+	        StringBuilder builder = new StringBuilder();
+
+	        int byteRead;
+
+	        while ((byteRead = buffer.read()) != -1)
+	            builder.append((char) byteRead);
+
+	        buffer.close();
+	        return builder.toString();
+	  }
+	  
 	  /**
 	   * 
 	   * @param url : String URL 
