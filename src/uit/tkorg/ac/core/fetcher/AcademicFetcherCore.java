@@ -89,14 +89,20 @@ public class AcademicFetcherCore {
 	 */
 	public static int checkSearchStatus(String _pageContent){
 		int index = -1; 	//vi tri cua chuoi "class=\"search-suggestion-author" trong page content
-		
-		index = _pageContent.indexOf(AcademicCrawlConst.CLASS_AUTHORS_SUGGESTION);
-		if(index != -1){
-			return 3;
-		}else{	
-			index = _pageContent.indexOf(AcademicCrawlConst.CLASS_AUTHOR_SUGGESTION);
-			if(index != -1){
-				return 2;
+		index = _pageContent.indexOf("ctl00_MainContent_divNoResult");
+		if (index != -1) {
+			return 1;
+		} else {
+			index = _pageContent
+					.indexOf(AcademicCrawlConst.CLASS_AUTHORS_SUGGESTION);
+			if (index != -1) {
+				return 3;
+			} else {
+				index = _pageContent
+						.indexOf(AcademicCrawlConst.CLASS_AUTHOR_SUGGESTION);
+				if (index != -1) {
+					return 2;
+				}
 			}
 		}
 		
