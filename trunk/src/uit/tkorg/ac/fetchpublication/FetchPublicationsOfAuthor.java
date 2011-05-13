@@ -50,7 +50,7 @@ public class FetchPublicationsOfAuthor {
 				}
 				
 				String paperItemContent = getPublicaitonItemTextContent(_page, paperID);
-				
+				System.out.println( "##############################");
 				System.out.println( "Paper 0" + j);
 				
 				// Title
