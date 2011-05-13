@@ -26,11 +26,19 @@ public class FetchPublicationsOfAuthor {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		
+		
+		
+		
+		// Example run by get Publiscation page of Susan Gauch
 		URL _url;
 		try {
 			_url = new URL("http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=2&id=866448");
 		
 			String _page = GetPageContent.getResults(_url);
+			
+			
+			/// Run with number of Susan's Publicaiton 
+			
 			for(int j = 0; j < 81; j++ ){
 				
 			String paperID = "";
@@ -40,13 +48,18 @@ public class FetchPublicationsOfAuthor {
 			else{
 				paperID = j + "";
 			}
-			String paperItemContent = getPaperItemContent(_page, paperID);
+			
+			
+			String paperItemContent = getPublicaitonItemTextContent(_page, paperID);
+			System.out.printf(paperItemContent);
 			
 			System.out.println( "Paper 0" + j);
 			
+			System.out.println( "Title:" + getTitleOfPublication(paperItemContent, paperID));
+			
 			System.out.println("Authors : ");
-			getAuthorNameList(paperItemContent);
-			ArrayList<String> authorList = getAuthorNameList(paperItemContent);
+			
+			ArrayList<String> authorList = getListAuthorNameOfPublication(paperItemContent);
 			if(authorList != null){
 				for (int i = 0; i < authorList.size(); i++) {
 					System.out.println(authorList.get(i));
@@ -54,19 +67,25 @@ public class FetchPublicationsOfAuthor {
 			}
 			
 			System.out.println("");			
-			String pubAbstract = getAbstract(paperItemContent); 
+			
+			String pubAbstract = getAbstractOfPublication(paperItemContent); 
+			
 			System.out.println( "Abstract: " + pubAbstract);
-			
 			System.out.println("");
-			String conference = getConference(paperItemContent, paperID);
+			
+			String conference = getNameConferenceOfPublication(paperItemContent, paperID);
+			if(conference != "")
 			System.out.println("Confernce: " + conference);
+			else
+				System.out.println("Journal: " + getNameJournalOfPublication(paperItemContent, paperID));
 			
 			System.out.println("");
-			String pageNumber = getPageNumber(paperItemContent, paperID);
+			
+			String pageNumber = getPageNumberOfPublication(paperItemContent, paperID);
 			System.out.println( "Page number: " + pageNumber);
 			
 			System.out.println("");	
-			int year = getYear(paperItemContent, paperID);			
+			int year = getYearPublishOfPublication(paperItemContent, paperID);			
 			System.out.println("Year: " + year );			
 			}
 		} catch (MalformedURLException e) {
@@ -79,11 +98,16 @@ public class FetchPublicationsOfAuthor {
 		
 	}
 	
-	// Ham lay noi dung chi tiet 1 publication
-	public static String getPaperItemContent(String pageContent, String paperID)
+	/**
+	 *  Ham lay noi dung (Text) publication trong list pub cua page
+	 * @param pageContent : HTML Content of Publicaiton page
+	 * @param pubOrder : possiton of Pub
+	 * @return : String Text Info Text.
+	 */
+	public static String getPublicaitonItemTextContent(String pageContent, String pubOrder)
 	{
-		String ptGetPaperItem = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
-								+ paperID + AcademicCrawlConst.DIV_TITLE;
+		String ptGetPaperItem = AcademicCrawlConst.PATTERN_PUBLICAITON_ITEML_IN_LIST 
+								+ pubOrder + AcademicCrawlConst.PATTERN_DIV_TITLE;
 		String result = "";
 		int _startIndex = 0;
 		int _endIndex = 0;
@@ -99,31 +123,39 @@ public class FetchPublicationsOfAuthor {
 		return result;
 	}
 	
-	//Ham lay phan danh sach cac tac gia
-	public static ArrayList<String> getAuthorNameList(String pageItemContent){
+	/**
+	 * Ham lay danh sach ten cac tac gia cua bai bao.
+	 * @param publicationTextContent
+	 * @return : ArrayList Author Name
+	 */
+	public static ArrayList<String> getListAuthorNameOfPublication(String publicationTextContent){
 		
 		ArrayList<String> lstAuthor = new ArrayList<String>();
 		int _startIndex = 0;
 		int _endIndex = 0;
 		
-		if(pageItemContent != null && pageItemContent != ""){
-			_startIndex = pageItemContent.indexOf(AcademicCrawlConst.DIV_CLASS_AUTHOR_CONTENT);
-			_endIndex = pageItemContent.indexOf(AcademicCrawlConst.DIV_CLOSE_TAB, _startIndex);
+		if(publicationTextContent != null && publicationTextContent != ""){
+			_startIndex = publicationTextContent.indexOf(AcademicCrawlConst.PATTERN_DIV_CLASS_LIST_AUTHOR_NAME);
+			_endIndex = publicationTextContent.indexOf(AcademicCrawlConst.DIV_CLOSE_TAB, _startIndex);
 		}
-		
 		if(_startIndex != -1 && _endIndex != -1){			
-			String temp = pageItemContent.substring(_startIndex, _endIndex);
+			String listAuthorName = publicationTextContent.substring(_startIndex, _endIndex);
 			
-			temp = temp.replaceAll(AcademicCrawlConst.HTML_TAB,"").replaceAll( AcademicCrawlConst.HTML_TAB_OTHER, "");
+			listAuthorName = listAuthorName.replaceAll(AcademicCrawlConst.HTML_TAB,"").replaceAll( AcademicCrawlConst.HTML_TAB_OTHER, "");
 			
-			lstAuthor = getListItem(temp, ",");				
+			lstAuthor = getAuthorNameFromTextListAuthorName(listAuthorName, ",");				
 		}
 		
 		return lstAuthor;
 	}
 
-	// Ham cat 1 chuoi thanh nhieu chuoi con
-	public static ArrayList<String> getListItem(String strContent, String strFind) {
+	/**
+	 * Lay ten tac gia tu chuoi danh sach ten tac gia
+	 * @param listAuthorName
+	 * @param characterBetwenAuthorName
+	 * @return
+	 */
+	public static ArrayList<String> getAuthorNameFromTextListAuthorName(String listAuthorName, String characterBetwenAuthorName) {
 		
 		int beginIndex = 0;		
 		int temp = -1;
@@ -132,32 +164,36 @@ public class FetchPublicationsOfAuthor {
 		
 		while(beginIndex != -1){			
 			temp =  beginIndex;
-			beginIndex = strContent.indexOf(strFind , beginIndex + 1);
+			beginIndex = listAuthorName.indexOf(characterBetwenAuthorName , beginIndex + 1);
 			
 			if(beginIndex == -1)
-				strList.add(strContent.substring(temp).replaceAll("  ", "").replaceAll(",", ""));
+				strList.add(listAuthorName.substring(temp).replaceAll("  ", "").replaceAll(",", ""));
 			else
-				strList.add(strContent.substring(temp, beginIndex).replaceAll("  ", "").replaceAll(",", ""));
+				strList.add(listAuthorName.substring(temp, beginIndex).replaceAll("  ", "").replaceAll(",", ""));
 			
 		}
 		
 		return strList;
     }
 	
-	//Ham lay phan abstract
-	public static String getAbstract(String pageItemContent){
+	/**
+	 * Ham lay tom tat cua tac gia tu noi dung cua bai bao.
+	 * @param publicaitonTextContent
+	 * @return
+	 */
+	public static String getAbstractOfPublication(String publicaitonTextContent){
 		
 		String result = "";		
 		int _beginIndex = 0;
 		int _endIndex = 0;		
 		
-		if(pageItemContent != null && pageItemContent != ""){
-			_beginIndex = pageItemContent.indexOf(AcademicCrawlConst.DIV_CLASS_ABSTRACT_CONTENT);
-			_endIndex = pageItemContent.indexOf(AcademicCrawlConst.DIV_CLOSE_TAB, _beginIndex);
+		if(publicaitonTextContent != null && publicaitonTextContent != ""){
+			_beginIndex = publicaitonTextContent.indexOf(AcademicCrawlConst.DIV_CLASS_ABSTRACT_CONTENT);
+			_endIndex = publicaitonTextContent.indexOf(AcademicCrawlConst.DIV_CLOSE_TAB, _beginIndex);
 			
 		}		
 		if(_beginIndex != -1 && _endIndex != -1){			
-			result = pageItemContent.substring(_beginIndex, _endIndex);
+			result = publicaitonTextContent.substring(_beginIndex, _endIndex);
 		}
 		
 		result = result.replaceAll(AcademicCrawlConst.HTML_TAB, "").replaceAll(AcademicCrawlConst.HTML_TAB_OTHER, "").replaceAll( "  ", "");
@@ -165,43 +201,67 @@ public class FetchPublicationsOfAuthor {
 		return result;
 	}
 	
-	//Ham lay phan conference
-	public static String getConference(String paperItemContent, String paperID){
-		String idOfConferenceTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
-								+ paperID + AcademicCrawlConst.HL_CONFERENCE;
-		
+	public static String getTitleOfPublication(String publicaitonTextContent, String pubOrder){	
+		String result = "";		
+		result = GetContentDIVTag.getTextOfDivTag(publicaitonTextContent,
+				AcademicCrawlConst.PUBLICATION_PATTERN_DIV.replaceAll(
+						"\\(NUM\\)", pubOrder));
+		return result;
+	}
+	
+	/**
+	 * Ham lay phan conference
+	 * @param publicaitonTextContent
+	 * @param pubOrder : So thu tu cua pub trong pub page
+	 * @return
+	 */
+	public static String getNameConferenceOfPublication(String publicaitonTextContent, String pubOrder){
+		String idOfConferenceTab = AcademicCrawlConst.PATTERN_PUBLICAITON_ITEML_IN_LIST 
+								+ pubOrder + AcademicCrawlConst.HL_CONFERENCE;
 		
 		String result = "";
-		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab) != null)		
-			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
+		if(GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfConferenceTab) != null)		
+			result = GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfConferenceTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
+		return result;
+	}
+	/**
+	 * Ham lay ten Joural cua publicaiton neu conference Rong
+	 * @param publicaitonTextContent
+	 * @param pubOrder
+	 * @return
+	 */
+	public static String getNameJournalOfPublication(String publicaitonTextContent, String pubOrder){	
+		String result = "";
 		
-		if(result == "")
-		{
-			String idOfJouralTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 		
-									+ paperID + AcademicCrawlConst.HL_JOURNAL;
-			
-			if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfJouralTab) != null)		
-				result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfJouralTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
-		}
+		String idOfJouralTab = AcademicCrawlConst.PATTERN_PUBLICAITON_ITEML_IN_LIST 		
+									+ pubOrder + AcademicCrawlConst.HL_JOURNAL;
+			if(GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfJouralTab) != null)		
+				result = GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfJouralTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
 		
 		return result;
 	}
 	
-	//Ham lay so trang
-	public static String getPageNumber(String paperItemContent, String paperID){
-		String idOfYearTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
-								+ paperID + AcademicCrawlConst.YEAR_CONFERENCE;
+	
+	/**
+	 * Lay page number cua pub 
+	 * @param publicaitonTextContent
+	 * @param pubOrder
+	 * @return
+	 */
+	public static String getPageNumberOfPublication(String publicaitonTextContent, String pubOrder){
+		String idOfYearTab = AcademicCrawlConst.PATTERN_PUBLICAITON_ITEML_IN_LIST 
+								+ pubOrder + AcademicCrawlConst.YEAR_CONFERENCE;
 
 		String result = "";
-		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab) != null)
-			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");
+		if(GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfYearTab) != null)
+			result = GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfYearTab).replaceAll("\\<.*?>","");
 	
 		result = result.replaceAll(AcademicCrawlConst.HTML_TAB,"");
 		
 		Pattern hitsPattern = Pattern.compile(AcademicCrawlConst.PATTERN_PAGENUM_TO_PAGENUM);
 		Matcher m = hitsPattern.matcher(result);
         if (!m.find()) {
-        	System.out.println("No Info");
+        	return result;
         } else {
            
         	String firstNumber = m.group(1);
@@ -217,18 +277,24 @@ public class FetchPublicationsOfAuthor {
 		return result;
 	}
 	
-	//Ham lay nam cong bo
-	public static int getYear(String paperItemContent, String paperID){
+	/**
+	 * Ham lay nam cong bo
+	 * @param publicaitonTextContent
+	 * @param pubOrder
+	 * @return
+	 */
+	
+	public static int getYearPublishOfPublication(String publicaitonTextContent, String pubOrder){
 		
-		String idOfYearTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
-								+ paperID + AcademicCrawlConst.YEAR_CONFERENCE;
+		String idOfYearTab = AcademicCrawlConst.PATTERN_PUBLICAITON_ITEML_IN_LIST 
+								+ pubOrder + AcademicCrawlConst.YEAR_CONFERENCE;
 		
 		String result = "";
 		
 		int year = 0;
 		
-		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab) != null)
-			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");		
+		if(GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfYearTab) != null)
+			result = GetContentDIVTag.getContentOfDivTag(publicaitonTextContent, idOfYearTab).replaceAll("\\<.*?>","");		
 		
         Pattern datePattern = Pattern.compile(AcademicCrawlConst.PATTERN_YEAR);
 	    Matcher m = datePattern.matcher(result);
