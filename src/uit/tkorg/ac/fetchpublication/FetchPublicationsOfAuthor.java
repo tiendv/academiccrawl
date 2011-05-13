@@ -12,7 +12,7 @@ import uit.tkorg.ac.htmlpaser.GetContentDIVTag;
 import uit.tkorg.ac.properties.file.AcademicCrawlConst;
 
 /**
- * @author cuongnp
+ * @author cuongnp,tiendv
  *
  */
 
