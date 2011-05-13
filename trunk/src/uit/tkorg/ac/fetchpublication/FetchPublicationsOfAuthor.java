@@ -41,53 +41,55 @@ public class FetchPublicationsOfAuthor {
 			
 			for(int j = 0; j < 81; j++ ){
 				
-			String paperID = "";
-			if(j < 10){
-				paperID = "0" + j;
-			}
-			else{
-				paperID = j + "";
-			}
-			
-			
-			String paperItemContent = getPublicaitonItemTextContent(_page, paperID);
-			System.out.printf(paperItemContent);
-			
-			System.out.println( "Paper 0" + j);
-			
-			System.out.println( "Title:" + getTitleOfPublication(paperItemContent, paperID));
-			
-			System.out.println("Authors : ");
-			
-			ArrayList<String> authorList = getListAuthorNameOfPublication(paperItemContent);
-			if(authorList != null){
-				for (int i = 0; i < authorList.size(); i++) {
-					System.out.println(authorList.get(i));
+				String paperID = "";
+				if(j < 10){
+					paperID = "0" + j;
 				}
-			}
-			
-			System.out.println("");			
-			
-			String pubAbstract = getAbstractOfPublication(paperItemContent); 
-			
-			System.out.println( "Abstract: " + pubAbstract);
-			System.out.println("");
-			
-			String conference = getNameConferenceOfPublication(paperItemContent, paperID);
-			if(conference != "")
-			System.out.println("Confernce: " + conference);
-			else
-				System.out.println("Journal: " + getNameJournalOfPublication(paperItemContent, paperID));
-			
-			System.out.println("");
-			
-			String pageNumber = getPageNumberOfPublication(paperItemContent, paperID);
-			System.out.println( "Page number: " + pageNumber);
-			
-			System.out.println("");	
-			int year = getYearPublishOfPublication(paperItemContent, paperID);			
-			System.out.println("Year: " + year );			
-			}
+				else{
+					paperID = j + "";
+				}
+				
+				String paperItemContent = getPublicaitonItemTextContent(_page, paperID);
+				
+				System.out.println( "Paper 0" + j);
+				
+				// Title
+				
+				System.out.println( "Title of Publication:" + getTitleOfPublication(paperItemContent, paperID));
+				
+				// List Author
+				
+				System.out.println("List Authors : ");
+				
+				ArrayList<String> authorList = getListAuthorNameOfPublication(paperItemContent);
+				if(authorList != null){
+					for (int i = 0; i < authorList.size(); i++) {
+						System.out.printf(authorList.get(i));
+					}
+				}		
+				
+				// Abstract 
+				
+				String pubAbstract = getAbstractOfPublication(paperItemContent); 
+				System.out.println( "Abstract: " + pubAbstract);
+				
+				// Conferece - Journal
+				
+				String conference = getNameConferenceOfPublication(paperItemContent, paperID);
+				if(conference != "")
+				System.out.println("Confernce: " + conference);
+				else
+					System.out.println("Journal: " + getNameJournalOfPublication(paperItemContent, paperID));
+				// Page number
+				
+				String pageNumber = getPageNumberOfPublication(paperItemContent, paperID);
+				System.out.println( "Page number: " + pageNumber);
+				
+				// Year Publicaiton
+				
+				int year = getYearPublishOfPublication(paperItemContent, paperID);			
+				System.out.println("Year: " + year );			
+				}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
