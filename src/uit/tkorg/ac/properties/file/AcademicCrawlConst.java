@@ -46,12 +46,12 @@ public class AcademicCrawlConst {
 	public static String HTML_TAB_OTHER = "&nbsp;";
 	public static String LI_CLOSE_TAB = "</li>";
 	public static String DIV_CLOSE_TAB = "</div>";	
-	public static String CLASS_MAIN_CONTENT_PUB_LIST = "ctl00_MainContent_ObjectList_ctl";
-	public static String DIV_TITLE = "_divTitle";
+	public static String PATTERN_PUBLICAITON_ITEML_IN_LIST= "ctl00_MainContent_ObjectList_ctl";
+	public static String PATTERN_DIV_TITLE = "_divTitle";
 	public static String HL_CONFERENCE = "_HLConference";
 	public static String HL_JOURNAL = "_HLJournal";
 	public static String YEAR_CONFERENCE = "_YearConference";
-	public static String DIV_CLASS_AUTHOR_CONTENT = "<div class=\"content\">";
+	public static String PATTERN_DIV_CLASS_LIST_AUTHOR_NAME = "<div class=\"content\">";
 	public static String DIV_CLASS_ABSTRACT_CONTENT = "<div class=\"abstract\">";
 	public static String PATTERN_PAGENUM_TO_PAGENUM = "(\\d+,*\\d*,*\\d*,*\\d*)-(\\d+,*\\d*,*\\d*,*\\d)";
 	public static String PATTERN_YEAR = "(\\d{4})";
