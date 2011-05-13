@@ -162,9 +162,20 @@ public class FetchPublicationsOfAuthor {
 	public static String getConference(String paperItemContent, String paperID){
 		String idOfConferenceTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
 								+ paperID + AcademicCrawlConst.HL_CONFERENCE;
+		
+		
 		String result = "";
 		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab) != null)		
 			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
+		
+		if(result == "")
+		{
+			String idOfJouralTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 		
+									+ paperID + AcademicCrawlConst.HL_JOURNAL;
+			
+			if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfJouralTab) != null)		
+				result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfJouralTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
+		}
 		
 		return result;
 	}
@@ -173,7 +184,7 @@ public class FetchPublicationsOfAuthor {
 	public static String getPageNumber(String paperItemContent, String paperID){
 		String idOfYearTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
 								+ paperID + AcademicCrawlConst.YEAR_CONFERENCE;
-		
+
 		String result = "";
 		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab) != null)
 			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");
