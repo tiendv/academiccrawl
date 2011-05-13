@@ -31,11 +31,11 @@ public class FetchPublicationsOfAuthor {
 			_url = new URL("http://academic.research.microsoft.com/Detail?entitytype=2&searchtype=2&id=866448");
 		
 			String _page = GetPageContent.getResults(_url);
-			
-			String paperID = "02";
+			for(int j = 0; j < 81; j++ ){
+			String paperID = "0" + j;
 			String paperItemContent = getPaperItemContent(_page, paperID);
 			
-			System.out.println( "Paper 02: ");
+			System.out.println( "Paper 0" + j);
 			
 			System.out.println("Authors : ");
 			getAuthorNameList(paperItemContent);
@@ -61,7 +61,7 @@ public class FetchPublicationsOfAuthor {
 			System.out.println("");	
 			int year = getYear(paperItemContent, paperID);			
 			System.out.println("Year: " + year );			
-			
+			}
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,6 +69,7 @@ public class FetchPublicationsOfAuthor {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
 	}
 	
 	// Ham lay noi dung chi tiet 1 publication
@@ -162,8 +163,8 @@ public class FetchPublicationsOfAuthor {
 		String idOfConferenceTab = AcademicCrawlConst.CLASS_MAIN_CONTENT_PUB_LIST 
 								+ paperID + AcademicCrawlConst.HL_CONFERENCE;
 		String result = "";
-		
-		result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
+		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab) != null)		
+			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfConferenceTab).replaceAll(AcademicCrawlConst.HTML_TAB,"");
 		
 		return result;
 	}
@@ -174,8 +175,8 @@ public class FetchPublicationsOfAuthor {
 								+ paperID + AcademicCrawlConst.YEAR_CONFERENCE;
 		
 		String result = "";
-		
-		result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");
+		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab) != null)
+			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");
 	
 		result = result.replaceAll(AcademicCrawlConst.HTML_TAB,"");
 		
@@ -208,7 +209,8 @@ public class FetchPublicationsOfAuthor {
 		
 		int year = 0;
 		
-		result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");		
+		if(GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab) != null)
+			result = GetContentDIVTag.getContentOfDivTag(paperItemContent, idOfYearTab).replaceAll("\\<.*?>","");		
 		
         Pattern datePattern = Pattern.compile(AcademicCrawlConst.PATTERN_YEAR);
 	    Matcher m = datePattern.matcher(result);
