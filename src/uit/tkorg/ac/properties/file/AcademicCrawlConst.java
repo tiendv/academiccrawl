@@ -49,6 +49,7 @@ public class AcademicCrawlConst {
 	public static String CLASS_MAIN_CONTENT_PUB_LIST = "ctl00_MainContent_ObjectList_ctl";
 	public static String DIV_TITLE = "_divTitle";
 	public static String HL_CONFERENCE = "_HLConference";
+	public static String HL_JOURNAL = "_HLJournal";
 	public static String YEAR_CONFERENCE = "_YearConference";
 	public static String DIV_CLASS_AUTHOR_CONTENT = "<div class=\"content\">";
 	public static String DIV_CLASS_ABSTRACT_CONTENT = "<div class=\"abstract\">";
