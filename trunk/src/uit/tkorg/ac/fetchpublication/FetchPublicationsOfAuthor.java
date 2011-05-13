@@ -32,7 +32,14 @@ public class FetchPublicationsOfAuthor {
 		
 			String _page = GetPageContent.getResults(_url);
 			for(int j = 0; j < 81; j++ ){
-			String paperID = "0" + j;
+				
+			String paperID = "";
+			if(j < 10){
+				paperID = "0" + j;
+			}
+			else{
+				paperID = j + "";
+			}
 			String paperItemContent = getPaperItemContent(_page, paperID);
 			
 			System.out.println( "Paper 0" + j);
