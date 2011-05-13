@@ -128,9 +128,9 @@ public class FetchPublicationsOfAuthor {
 			beginIndex = strContent.indexOf(strFind , beginIndex + 1);
 			
 			if(beginIndex == -1)
-				strList.add(strContent.substring(temp + 1).replaceAll("  ", ""));
+				strList.add(strContent.substring(temp).replaceAll("  ", "").replaceAll(",", ""));
 			else
-				strList.add(strContent.substring(temp + 1, beginIndex).replaceAll("  ", ""));
+				strList.add(strContent.substring(temp, beginIndex).replaceAll("  ", "").replaceAll(",", ""));
 			
 		}
 		
